@@ -1,13 +1,51 @@
+/**
+ * Gemini AI Service
+ *
+ * Handles all interactions with Google Gemini AI API for image generation.
+ * Uses the Gemini 2.5 Flash Image model to create watercolor-style artwork
+ * for calendar events and monthly headers.
+ *
+ * @module geminiService
+ */
+
 import { GoogleGenAI } from "@google/genai";
 
+// Load API key from environment variables
 const apiKey = process.env.API_KEY;
 
 if (!apiKey) {
   console.error("API_KEY is not defined in process.env");
 }
 
+// Initialize Google Gemini AI client
 const ai = new GoogleGenAI({ apiKey: apiKey || 'DUMMY_KEY' });
 
+/**
+ * Generates AI artwork for a calendar day's events.
+ *
+ * Creates a soft, faded watercolor painting style image that represents
+ * the day's events. The image is optimized for use as a background with
+ * text overlay, so it maintains a light, uncluttered aesthetic.
+ *
+ * @param eventSummaries - Array of event titles for the day (e.g., ["Team Meeting", "Lunch"])
+ * @param customPrompt - Optional custom text to inject creative variations (e.g., "Add a small robot")
+ * @returns Promise resolving to base64 encoded data URL, or null if generation fails
+ *
+ * @example
+ * ```typescript
+ * const events = ["Team Meeting", "Lunch with Client"];
+ * const image = await generateDayImage(events, "Add a fun mascot");
+ * if (image) {
+ *   element.style.backgroundImage = `url(${image})`;
+ * }
+ * ```
+ *
+ * @remarks
+ * - Uses 1:1 aspect ratio for square day cells
+ * - Generated images contain NO text or numbers
+ * - Returns null on API errors rather than throwing
+ * - Free tier: ~15 requests per minute limit
+ */
 export const generateDayImage = async (eventSummaries: string[], customPrompt?: string): Promise<string | null> => {
   if (!apiKey) throw new Error("API Key missing");
 
@@ -50,9 +88,35 @@ export const generateDayImage = async (eventSummaries: string[], customPrompt?: 
   }
 };
 
+/**
+ * Generates themed header banner images for calendar months.
+ *
+ * Creates a wide, panoramic illustration suitable for use as a calendar
+ * month header. The style is playful watercolor, optimized for display
+ * at the top of printable calendars.
+ *
+ * @param monthName - Full month name (e.g., "January", "December")
+ * @param theme - Optional theme description (default: "Tollgate Elementary School Gators")
+ * @returns Promise resolving to base64 encoded data URL, or null if generation fails
+ *
+ * @example
+ * ```typescript
+ * const header = await generateMonthHeader(
+ *   "December",
+ *   "Winter Wonderland with snowflakes"
+ * );
+ * ```
+ *
+ * @remarks
+ * - Uses 16:9 aspect ratio for banner display
+ * - Generated images contain NO text, numbers, or calendar elements
+ * - Returns null on API errors rather than throwing
+ * - Best used before generating daily images to set the month's tone
+ */
 export const generateMonthHeader = async (monthName: string, theme?: string): Promise<string | null> => {
   if (!apiKey) throw new Error("API Key missing");
-  
+
+  // Use default school theme if none provided
   const selectedTheme = theme || "Tollgate Elementary School Gators (Pickerington Local School District)";
 
   const prompt = `
