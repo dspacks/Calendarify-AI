@@ -266,20 +266,14 @@ See [LICENSE](LICENSE) file for details.
 
 ## 📞 Support
 
-- 📧 Email: [support@example.com](mailto:support@example.com)
 - 🐛 Issues: [GitHub Issues](https://github.com/dspacks/Calendarify-AI/issues)
 - 💬 Discussions: [GitHub Discussions](https://github.com/dspacks/Calendarify-AI/discussions)
 
 ## 🗺️ Roadmap
 
-- [ ] Add more AI model options (DALL-E, Stable Diffusion)
-- [ ] Support for recurring events
-- [ ] Calendar sharing and collaboration
 - [ ] More export formats (PNG, JPG, SVG)
 - [ ] Mobile app versions
-- [ ] Pre-made theme templates
 - [ ] Event filtering and categorization
-- [ ] Multi-language support
 
 ---
 
